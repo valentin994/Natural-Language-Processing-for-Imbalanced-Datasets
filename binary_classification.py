@@ -6,6 +6,7 @@ from pprint import pprint as print
 from langdetect import detect
 import re
 import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
 def text_prepare(txt):
@@ -95,4 +96,11 @@ plt.savefig(
 
 # df["clean_text"] = df["text"].apply(lambda x: text_prepare(x))
 # df.to_csv("./twitter_set/data.csv", index=False)
+
+# sid = SentimentIntensityAnalyzer()
+# df["scores"] = df["text"].apply(lambda x: sid.polarity_scores(x))
+# df["scores"] = df["scores"].apply(lambda x: x["compound"])
+
+# df.to_csv("./twitter_set/data.csv", index=False)
+
 print(df)
