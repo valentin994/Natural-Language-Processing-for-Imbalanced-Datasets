@@ -17,7 +17,8 @@ def text_prepare(txt):
     Returns:
         string: Cleaned, lemminized text
     """
-    txt = re.sub(r"[^\w\s]", " ", str(df.text[0]).lower().strip())
+    print(txt)
+    txt = re.sub(r"[^\w\s]", " ", str(txt).lower().strip())
     txt = txt.split()
     nltk.corpus.stopwords.words("english")
     txt = [word for word in txt if word not in nltk.corpus.stopwords.words("english")]
@@ -92,7 +93,6 @@ plt.savefig(
 )
 """
 
-df["clean_text"] = df["text"].apply(lambda x: print(x))
-print(df.head())
-
+# df["clean_text"] = df["text"].apply(lambda x: text_prepare(x))
 # df.to_csv("./twitter_set/data.csv", index=False)
+print(df)
