@@ -73,10 +73,16 @@ def language_detection_and_cleaning(df: pd.DataFrame, text_column: str) -> pd.Da
 
 def length_params(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
     df["word_count"] = df[text_column].apply(lambda x: len(str(x).split(" ")))
+    df["letter_count"] = df[text_column].apply(
+        lambda x: sum(len(word) for word in str(x).split(" "))
+    )
+    df["sentence_count"] = df[text_column].apply(lambda x: len(str(x).split(".")))
+    df["avg_word_len"] = df["letter_count"] / df["word_count"]
+    df["avg_sentence_len"] = df["word_count"] / df["sentence_count"]
     return df
 
 
-# df = pd.read_csv("./data/mbti_1.csv")
+# df = pd.read_csv("./data/mbti_1.csv", index=False)
 # distribution(
 #     df,
 #     "type",
@@ -88,5 +94,8 @@ def length_params(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
 # df = pd.read_csv("./data/cleaned_mbti.csv")
 # df = language_detection_and_cleaning(df)
 
+# df = pd.read_csv("./data/cleaned_mbti.csv")
+# df = length_params(df, "posts")
+# df.to_csv("./data/cleaned_mbti.csv", index=False)
 df = pd.read_csv("./data/cleaned_mbti.csv")
-print(length_params(df, "text"))
+print(df)
