@@ -103,4 +103,12 @@ plt.savefig(
 
 # df.to_csv("./twitter_set/data.csv", index=False)
 
-print(df)
+# sns.displot(data=df[df["target"] == 0], x="scores", kind="kde")
+# plt.savefig(
+#     "./graphs/binary_classification_graphs/distribucija_sentiment_analize_za_negativan_target.png"
+# )
+
+# sns.displot(data=df[df["target"] == 1], x="scores", kind="kde")
+# plt.savefig(
+#     "./graphs/binary_classification_graphs/distribucija_sentiment_analize_za_pozitivan_target.png"
+# )
