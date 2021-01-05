@@ -30,6 +30,31 @@ def distribution(
         plt.show()
 
 
+def distributions(
+    df: pd.DataFrame,
+    dist_class: str,
+    column: str,
+    show: bool,
+    save_location: str,
+) -> None:
+    """
+        Plot distribution of the same x variable for multiple classes
+
+    Args:
+        df (pd.DataFrame): Data
+        dist_class (str): How to split the values from df
+        column (str): Column of dataframe
+        show (bool): Flag to show plot
+        hist (bool): Hist type flag
+        kde (bool): Kde type flag
+        save_location (str): Path to where the plot should be saved
+    """
+    sns.displot(x=df[column], hue=df[dist_class], kind="kde", clip=(1.0, 8.0))
+    plt.savefig(save_location)
+    if show:
+        plt.show()
+
+
 def language_detection_and_cleaning(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
     """
         Creates lang columns which maps based on the text_column for each row,
@@ -72,6 +97,16 @@ def language_detection_and_cleaning(df: pd.DataFrame, text_column: str) -> pd.Da
 
 
 def length_params(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
+    """
+        Add parameters based on the text length, word count and sentence count.
+
+    Args:
+        df (pd.DataFrame): Dataframe
+        text_column (str): Which column to apply len methods
+
+    Returns:
+        pd.DataFrame: Dataframe with added parameters
+    """
     df["word_count"] = df[text_column].apply(lambda x: len(str(x).split(" ")))
     df["letter_count"] = df[text_column].apply(
         lambda x: sum(len(word) for word in str(x).split(" "))
@@ -98,4 +133,11 @@ def length_params(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
 # df = length_params(df, "posts")
 # df.to_csv("./data/cleaned_mbti.csv", index=False)
 df = pd.read_csv("./data/cleaned_mbti.csv")
-print(df)
+distributions(
+    df,
+    "type",
+    "avg_word_len",
+    True,
+    "./graphs/myers_briggs_multiclassification/avg_word_len_distribution.png",
+)
+print(df.info())
