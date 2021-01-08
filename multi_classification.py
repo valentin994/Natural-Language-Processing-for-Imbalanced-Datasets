@@ -55,6 +55,15 @@ def distributions(
         plt.show()
 
 
+def barplot(df: pd.DataFrame, column: str, show: bool, save_location: str):
+    plt.figure(figsize=(20, 20))
+    df = df.pivot_table(index=[column], aggfunc="size").sort_values()
+    sns.barplot(x=df.index, y=df.values)
+    plt.savefig(save_location)
+    if show:
+        plt.show()
+
+
 def language_detection_and_cleaning(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
     """
         Creates lang columns which maps based on the text_column for each row,
@@ -117,27 +126,5 @@ def length_params(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
     return df
 
 
-# df = pd.read_csv("./data/mbti_1.csv", index=False)
-# distribution(
-#     df,
-#     "type",
-#     False,
-#     True,
-#     "./graphs/myers_briggs_multiclassification/personality_distribution.png",
-# )
-
-# df = pd.read_csv("./data/cleaned_mbti.csv")
-# df = language_detection_and_cleaning(df)
-
-# df = pd.read_csv("./data/cleaned_mbti.csv")
-# df = length_params(df, "posts")
-# df.to_csv("./data/cleaned_mbti.csv", index=False)
 df = pd.read_csv("./data/cleaned_mbti.csv")
-distributions(
-    df,
-    "type",
-    "avg_word_len",
-    True,
-    "./graphs/myers_briggs_multiclassification/avg_word_len_distribution.png",
-)
-print(df.info())
+print(df)
