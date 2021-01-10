@@ -126,5 +126,31 @@ def length_params(df: pd.DataFrame, text_column: str) -> pd.DataFrame:
     return df
 
 
+def sentiment_score_distribution(
+    df: pd.DataFrame, type: str, score: str, show: bool, save_location: str
+):
+    """
+        Showcase scores distribution
+
+    Args:
+        df (pd.DataFrame): dataframe
+        type (str): Index by which the distribution is built
+        score (str): Column in which the score is stored
+        show (bool): Show flag plot
+        savelocation (str): Path to where the plot should be saved
+    """
+    plt.figure(figsize=(10, 8))
+    df = df.pivot_table(index=[type], values=[score], aggfunc="mean").sort_values(
+        by="scores"
+    )
+    sns.barplot(x=df.index, y=df["scores"])
+    plt.savefig(savelocation)
+    if show:
+        plt.show()
+
+
 df = pd.read_csv("./data/cleaned_mbti.csv")
-print(df)
+# sid = SentimentIntensityAnalyzer()
+# df["scores"] = df["posts"].apply(lambda x: sid.polarity_scores(x))  # Sentiment scores
+# df["scores"] = df["scores"].apply(lambda x: x["compound"])
+# df.to_csv("./data/cleaned_mbti.csv", index=False)
